@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang='ja'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+        <link href='./style.css' type='text/css' rel='stylesheet'>
+        <script src='https://unpkg.com/vue'></script>
+        <title>Orizuru Machine Catalog</title>
+        <style type="text/css">
+        @media screen and (min-width: 900px) {
+	body {
+		width: 1200px;
+		margin-right: auto;
+		margin-left : auto;
+	}
+	img {
+		width: 450px;
+	}
+	table {
+		width: 1200px;
+		margin-right: auto;
+		margin-left : auto;
+		border-collapse: collapse;
+		text-align: left;
+		line-height: 1.5;
+		border: 1px solid #ccc;
+	}
+}
+@media screen and (max-width: 900px) {
+	body {
+		width: 600px;
+		margin-right: auto;
+		margin-left : auto;
+	}
+	img {
+		width: 300px;
+	}
+	table {
+		width: 550px;
+		margin-right: auto;
+		margin-left : auto;
+		border-collapse: collapse;
+		text-align: left;
+		line-height: 1.5;
+		border: 1px solid #ccc;
+	}
+}
+h1 {
+	text-align: center;
+	padding: 0.5em 0;	
+	color: #ccc;
+	background: #04162e;
+}
+table thead {
+	border-right: 1px solid #04162e;
+	border-left: 1px solid #04162e;
+	background: #04162e;
+}
+table thead th {
+	text-align: center;
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+	color: #fff;
+}
+table tbody th {
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+	border-bottom: 1px solid #04162e;
+	background: #efefef;
+}
+table td {
+	vertical-align: middle;
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid #04162e;
+}
+.id {
+	text-align: center;
+}
+#inputbox {
+	border:0;
+	padding:10px;
+	font-size:1.3em;
+	font-family:Arial, sans-serif;
+	color:#666;
+	border:solid 1px #ccc;
+	margin:0 0 20px;
+	width:300px;
+}
+
+        </style>
+
+    </head>
+    <body>
+        <h1>Orizuru Machine Catalog</h1> 
+        関連記事
+        https://orizuru.io/blog/vue-js/search-function/
+        
+        <div id='app'>
+            <div>
+                <p><select id='inputbox' v-model='selection'>
+                    <option disabled value=''>選択してください</option>
+                    <option value='itemID'>品番</option>
+                    <option value='name'>名称</option>
+                    <option value='maker'>メーカー</option>
+                </select></p>
+                <p><input type='text' id='inputbox' v-model='keyword'></p>
+            </div>
+            <table>
+                <col width='5%' />
+                <col width='45%' />
+                <col width='25%' />
+                <col width='25%' />
+                <thead>
+                    <tr>
+                        <th>品番</th><th>画像</th><th>名称</th><th>メーカー</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for='item in itemsFiltered'>
+                        <td>{{ item.itemID }}</td>
+                        <td>
+                            <img :src='item.image' /><br>
+                            <p>引用元：<a :href='item.url'>{{ item.url }}</a></p>
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.maker }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            var vue = new Vue ({
+                el: '#app',
+                data: {
+                    'selection': '',
+                    'keyword': '',
+                    'items' : [
+                        {
+                            'itemID': 1,
+                            'name': 'INTEGREX i-100',
+                            'maker': 'ヤマザキマザック',
+                            'image': './image/mazak.jpg',
+                            'url': 'https://www.mazak.jp/machines/integrex-i-100/'
+                        },
+                        {
+                            'itemID': 2,
+                            'name': 'ドライカットギヤシェーパSE25A',
+                            'maker': '三菱重工',
+                            'image': './image/mistubishi.jpg',
+                            'url': 'https://www.mhi-machinetool.com/products/detail/deburge_series.html'
+                        },
+                        {
+                            'itemID': 3,
+                            'name': '円筒素材を段付き加工　立形円筒研削盤　TAD',
+                            'maker': '牧野フライス精機',
+                            'image': './image/makino.jpg',
+                            'url': 'http://www.makinoseiki.co.jp/product/08_tad.html'
+                        }
+                    ]
+                },
+                computed: {
+                    itemsFiltered: function () {
+                        return this.findBy(this.items, this.keyword, this.selection)
+                    }
+                },
+                methods: {
+                    findBy: function (list, value, column) {
+                        return list.filter(function (item) {
+                            // 入力がない場合は全件表示
+                            return (item[column] == value || value === '')
+                        })
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
