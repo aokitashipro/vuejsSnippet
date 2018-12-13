@@ -1,0 +1,76 @@
+<html>
+<body>
+<div id="app">
+    <div class="products" v-for="product in filteredProducts" v-text="product"></div>
+    <div v-if="loading">[読み込み中...]</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            products: [],
+            pageNumber: 1,
+            perPage: 25,
+            loading: false
+        },
+        methods: {
+            pager() {
+
+                if(window.scrollY + window.innerHeight === document.documentElement.clientHeight) {
+
+                    this.loading = true;
+                    const timer = timer1 = setInterval(() => {
+
+                        this.pageNumber++;
+                        clearInterval(timer);
+                        this.loading = false;
+
+                    }, 1000);
+
+                }
+
+            }
+        },
+        computed: {
+            filteredProducts() {
+
+                const itemCount = this.pageNumber * this.perPage;
+                let products = [];
+
+                for(let product of this.products) {
+
+                    if(products.length === itemCount) {
+
+                        break;
+
+                    }
+
+                    products.push(product);
+
+                }
+
+                return products;
+
+            }
+        },
+        mounted() {
+
+            this.products = [];
+
+            for(let i = 1 ; i <= 1000 ; i++) {
+
+                this.products.push('商品名 - '+ i);
+
+            }
+
+            window.addEventListener('scroll', this.pager);
+            this.pager();
+
+        }
+    });
+
+</script>
+</body>
+</html>
