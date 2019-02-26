@@ -19,15 +19,16 @@
     <li><label><input type="checkbox" :checked="isAllSelected" @click="selectAllCats">Select All</label></li>
     <li v-for="cat in cats">
       <label>
-        <input type="checkbox" v-model="selectedCatIds" :value="cat.id" @click="select">{{cat.name}}
-      </label>
+        <input type="checkbox" v-model="selectedCatIds" :value="cat.id"
+          @click="select">{{cat.name}}
+        </label>
     </li>
   </ul>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 <script>
-
+  
   var app = new Vue({
     el: '#app',
     data() {
