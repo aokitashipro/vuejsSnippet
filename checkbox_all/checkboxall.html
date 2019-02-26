@@ -1,0 +1,68 @@
+<html>
+
+<style>
+  ul {
+    list-style: none
+  }
+  input {
+    margin-right: .5em;
+  }
+</style>
+
+<body>
+  関連サイト
+  https://qiita.com/chocolatina/items/0509b3d22a38b8fd5b4b
+
+<div id="app">
+  <h1>Cats</h1>
+  <ul>
+    <li><label><input type="checkbox" :checked="isAllSelected" @click="selectAllCats">Select All</label></li>
+    <li v-for="cat in cats"><label><input type="checkbox" v-model="selectedCatIds" :value="cat.id"
+          @click="select">{{cat.name}}</label></li>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    data() {
+      return {
+        cats: [
+          { id: 1, name: 'Norwegian Forest Cat' },
+          { id: 2, name: 'Maine Coon' },
+          { id: 3, name: 'Munchkin' }
+        ],
+        isAllSelected: false,
+        selectedCatIds: [1, 2]
+      }
+    },
+    methods: {
+      selectAllCats() {
+        if (this.isAllSelected) {
+          this.selectedCatIds = []
+          this.isAllSelected = false
+        } else {
+          this.selectedCatIds = []
+          for (var cat in this.cats) {
+            this.selectedCatIds.push(this.cats[cat].id)
+          }
+          this.isAllSelected = true
+        }
+      },
+      select() {
+        if (this.selectedCatIds.length !== this.cats.length) {
+          this.isAllSelected = false
+        } else {
+          this.isAllSelected = true
+        }
+      }
+    }
+  })
+
+</script>
+
+</body>
+
+
+
+</html>
