@@ -11,14 +11,19 @@
 
 <body>
   関連サイト
-  https://qiita.com/chocolatina/items/0509b3d22a38b8fd5b4b
+  <a href="https://qiita.com/chocolatina/items/0509b3d22a38b8fd5b4b" target="_blank">Vue.jsで「すべて選択」を実装する</a>
 
 <div id="app">
   <h1>Cats</h1>
   <ul>
     <li><label><input type="checkbox" :checked="isAllSelected" @click="selectAllCats">Select All</label></li>
-    <li v-for="cat in cats"><label><input type="checkbox" v-model="selectedCatIds" :value="cat.id"
-          @click="select">{{cat.name}}</label></li>
+    <li v-for="cat in cats">
+      <label>
+        <input type="checkbox" v-model="selectedCatIds" :value="cat.id" @click="select">{{cat.name}}
+      </label>
+    </li>
+  </ul>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 <script>
